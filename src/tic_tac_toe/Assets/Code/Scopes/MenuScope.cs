@@ -11,7 +11,6 @@ public class MenuScope : LifetimeScope
     protected override void Configure(IContainerBuilder builder)
     {
         builder.Register<GameFactory>(Lifetime.Singleton).As<IGameFactory>();
-        builder.Register<ContainerProvider>(Lifetime.Singleton).As<IContainerProvider>();
         builder.Register<MenuCameraService>(Lifetime.Singleton).As<ICameraService>();
         builder.Register<MenuSceneProvider>(Lifetime.Singleton).As<IMenuSceneProvider>()
             .WithParameter(_spawnZone)
@@ -19,6 +18,8 @@ public class MenuScope : LifetimeScope
             .WithParameter("orbitCamera", _orbitCamera);
 
 
+        builder.Register<PooledFigureFactory>(Lifetime.Singleton).As<IFigureFactory>();
+        
         builder.Register<StateFactory>(Lifetime.Singleton);
         builder.Register<MenuStateMachine>(Lifetime.Singleton);
         

@@ -1,23 +1,11 @@
-using UnityEngine;
-using VContainer;
 using VContainer.Unity;
 
 public class ProjectEntryPoint : IInitializable
 {
     private readonly GameStateMachine _gameStateMachine;
-    private readonly IObjectResolver _resolver;
 
-    public ProjectEntryPoint(GameStateMachine gameStateMachine, IObjectResolver resolver)
-    {
+    public ProjectEntryPoint(GameStateMachine gameStateMachine) => 
         _gameStateMachine = gameStateMachine;
-        _resolver = resolver;
-    }
-    
-    public void Initialize()
-    {
-        //_gameStateMachine.AddState(_resolver.Resolve<InitializeState>());
-        //_gameStateMachine.AddState(_resolver.Resolve<LoadSceneState>());
-        
-        _gameStateMachine.Enter<InitializeState>();
-    }
+
+    public void Initialize() => _gameStateMachine.Enter<InitializeState>();
 }

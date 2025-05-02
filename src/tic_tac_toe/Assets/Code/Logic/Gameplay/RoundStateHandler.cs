@@ -37,6 +37,6 @@ public class RoundStateHandler
 
     public void RestartRound()
     {
-        
+        _gameStateMachine.Enter<RestartRoundState>();
     }
 }

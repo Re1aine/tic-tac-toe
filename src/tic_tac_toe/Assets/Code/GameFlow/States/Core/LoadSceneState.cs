@@ -11,8 +11,10 @@ public class LoadSceneState : IStateWithArg<GameScenes>
 
     public void Enter(GameScenes scene)
     {
-        _sceneLoader.LoadScene(scene.ToString(), () => Debug.Log($"{scene} scene is loaded"));
+        _sceneLoader.LoadScene(scene.ToString(), () => OnLoaded(scene));
     }
+
+    private void OnLoaded(GameScenes scene) => Debug.Log($"{scene} scene is loaded");
 
     public void Exit()
     {

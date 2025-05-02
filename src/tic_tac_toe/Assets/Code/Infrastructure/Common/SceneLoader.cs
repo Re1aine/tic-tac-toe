@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VContainer.Unity;
 
-public class SceneLoader : ISceneLoader
+public class SceneLoader : ISceneLoader 
 {
     private readonly ICoroutineRunner _coroutineRunner;
     public SceneLoader(ICoroutineRunner coroutineRunner) => 

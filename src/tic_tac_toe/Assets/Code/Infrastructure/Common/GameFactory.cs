@@ -4,14 +4,14 @@ using VContainer.Unity;
 
 public class GameFactory : IGameFactory
 {
-    private readonly IContainerProvider _containerProvider;
+    private readonly IObjectResolver _objectResolver;
 
-    public GameFactory(IContainerProvider containerProvider) =>
-        _containerProvider = containerProvider;
+    public GameFactory(IObjectResolver objectResolver) =>
+        _objectResolver = objectResolver;
 
     public GameGrid CreateGrid()
     {
-        var grid = _containerProvider.Container.Resolve<GameGrid>();
+        var grid = _objectResolver.Resolve<GameGrid>();
         grid.Initialize();
     
         return grid;
@@ -23,7 +23,7 @@ public class GameFactory : IGameFactory
     public Player CreatePlayer()
     {
         var prefab = Resources.Load<Player>("Player");
-        return _containerProvider.Container.Instantiate(prefab);
+        return _objectResolver.Instantiate(prefab);
     }
 }
 

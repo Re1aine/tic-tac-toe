@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class GameGrid
 {
@@ -13,7 +12,6 @@ public class GameGrid
     public GameGrid(IGameplaySceneProvider sceneProvider)
     {
         _sceneProvider = sceneProvider;
-        Debug.Log("GGAME GRIID CONSTRUCTOR");
     }
 
     public void Initialize()
@@ -42,5 +40,3 @@ public class GameGrid
         GridStateChanged?.Invoke();
     }
 }
-
-

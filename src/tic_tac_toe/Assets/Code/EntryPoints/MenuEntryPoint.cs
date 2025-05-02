@@ -11,6 +11,6 @@ public class MenuEntryPoint : IInitializable
 
     public void Initialize()
     {
-        _gameStateMachine.Enter<MenuState>();
+        _gameStateMachine.Enter<MenuInitializeState>();
     }
 }

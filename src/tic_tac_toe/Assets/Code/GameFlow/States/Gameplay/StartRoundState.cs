@@ -1,4 +1,3 @@
-using UnityEngine;
 using VContainer;
 
 public class StartRoundState : IState
@@ -6,18 +5,18 @@ public class StartRoundState : IState
     private readonly IGameFactory _gameFactory;
     private readonly ICoroutineRunner _coroutineRunner;
     private readonly ICameraService _cameraService;
-    private readonly IContainerProvider _containerProvider;
+    private readonly IObjectResolver _objectResolver;
 
     public StartRoundState(
         IGameFactory gameFactory,
         ICoroutineRunner coroutineRunner,
         ICameraService cameraService,
-        IContainerProvider containerProvider)
+        IObjectResolver objectResolver)
     {
         _gameFactory = gameFactory;
         _coroutineRunner = coroutineRunner;
         _cameraService = cameraService;
-        _containerProvider = containerProvider;
+        _objectResolver = objectResolver;
     }
 
     public void Enter()
@@ -26,9 +25,9 @@ public class StartRoundState : IState
         _gameFactory.CreatePlayer();
         _gameFactory.CreateGrid();
         
-        _containerProvider.Container.Resolve<RoundStateTracker>(); 
-        _containerProvider.Container.Resolve<EndRoundHandler>();   
-        _containerProvider.Container.Resolve<RoundStateHandler>(); 
+        _objectResolver.Resolve<RoundStateTracker>(); 
+        _objectResolver.Resolve<EndRoundHandler>();   
+        _objectResolver.Resolve<RoundStateHandler>(); 
     }
     
     public void Exit()
