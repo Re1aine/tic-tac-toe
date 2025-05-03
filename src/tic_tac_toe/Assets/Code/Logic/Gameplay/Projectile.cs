@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : MonoBehaviour, IRaycastable
 {
     public event Action Destroyed;
 
@@ -24,11 +24,8 @@ public class Projectile : MonoBehaviour
     {
         _rigidbody.isKinematic = true;
         _rigidbody.isKinematic = false;
-
     }
 
     public void Launch(Vector3 direction, float force) => 
         _rigidbody.AddForce(direction * force, ForceMode.Impulse);
-
-    public void Destroy() => Destroyed?.Invoke();
 }

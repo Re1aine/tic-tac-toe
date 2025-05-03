@@ -14,7 +14,7 @@ public class PooledFigureFactory : IFigureFactory
     private Figure _figurePrefab;
     private Transform _figuresParent;
     
-    private readonly float _lifeTimeFigure = 5f;
+    private readonly float _lifeTimeFigure = 15f;
     
     public PooledFigureFactory(IObjectResolver resolver)
     {
@@ -34,6 +34,7 @@ public class PooledFigureFactory : IFigureFactory
         figure.transform.position = position;
         figure.transform.rotation = rotation;
         figure.SetLifeTime(_lifeTimeFigure);
+        figure.ResetRigidbody();
         return figure;
     }
 

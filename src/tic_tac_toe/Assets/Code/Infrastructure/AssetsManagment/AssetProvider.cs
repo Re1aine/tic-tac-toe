@@ -25,4 +25,10 @@ public static class AssetProvider
         var prefab = Resources.Load<T>(prefabName);
         return Object.Instantiate(prefab, Vector3.zero, Quaternion.identity, parent);
     }
+
+    public static GameObject InstantiateGameObjectAt(string prefabName, Vector3 position)
+    { 
+        var prefab = Resources.Load<GameObject>(prefabName);
+        return Object.Instantiate(prefab, position, Quaternion.identity);
+    }
 }

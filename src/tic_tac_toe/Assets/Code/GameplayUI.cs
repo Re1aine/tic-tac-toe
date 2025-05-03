@@ -50,12 +50,10 @@ public class GameplayUI : MonoBehaviour
 
     private void UpdateTimerDisplay()
     {
-        // Форматирование времени в MM:SS
         int minutes = Mathf.FloorToInt(_currentTime / 60f);
         int seconds = Mathf.FloorToInt(_currentTime % 60f);
         _timerText.text = $"{minutes:00}:{seconds:00}";
 
-        // Изменение цвета при приближении к концу
         if (_currentTime <= _dangerThreshold)
             _timerText.color = _dangerColor;
         else if (_currentTime <= _warningThreshold)

@@ -25,6 +25,12 @@ public class GameFactory : IGameFactory
         var prefab = Resources.Load<Player>("Player");
         return _objectResolver.Instantiate(prefab);
     }
+
+    public Bomb CreateBomb(Vector3 position, Quaternion rotation) => 
+        AssetProvider.InstantiateAt<Bomb>("Bomb", position, rotation);
+
+    public GameObject CreateSafeContainer(Vector3 position) => 
+        AssetProvider.InstantiateGameObjectAt("SafeContainer", position);
 }
 
 public interface IGameFactory
@@ -32,5 +38,7 @@ public interface IGameFactory
     Figure CreateFigure(FigureType type, Vector3 position, Quaternion rotation);
     Player CreatePlayer();
     GameGrid CreateGrid();
+    Bomb CreateBomb(Vector3 position, Quaternion rotation);
+    GameObject CreateSafeContainer(Vector3 position);
 }
 
