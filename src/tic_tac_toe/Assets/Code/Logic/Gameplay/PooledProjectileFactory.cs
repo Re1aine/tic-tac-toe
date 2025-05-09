@@ -8,16 +8,18 @@ public class PooledProjectileFactory : IProjectileFactory
     private const string ParentName = "Projectiles";
     
     private readonly IObjectResolver _resolver;
-
+    private readonly IProjectilesHolder _projectilesHolder;
     private ObjectPool<Projectile> _projectilePool;
-
     private Projectile _projectilePrefab;
     private Transform _projectilesParent;
     
     private readonly float _lifeTimeProjectile = 5f;
 
-    public PooledProjectileFactory(IObjectResolver resolver) => 
+    public PooledProjectileFactory(IObjectResolver resolver, IProjectilesHolder projectilesHolder)
+    {
         _resolver = resolver;
+        _projectilesHolder = projectilesHolder;
+    }
 
     public void Initialize()
     {
@@ -36,6 +38,9 @@ public class PooledProjectileFactory : IProjectileFactory
         projectile.transform.position = position;
         projectile.SetLifetime(_lifeTimeProjectile);
         projectile.ResetRigidbody();
+        
+        _projectilesHolder.Add(projectile);
+        
         return projectile;
     }
 

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameGrid
 {
@@ -9,10 +10,8 @@ public class GameGrid
     private readonly Cell[,] _grid = new Cell[3,3];
     private readonly IGameplaySceneProvider _sceneProvider;
     
-    public GameGrid(IGameplaySceneProvider sceneProvider)
-    {
+    public GameGrid(IGameplaySceneProvider sceneProvider) => 
         _sceneProvider = sceneProvider;
-    }
 
     public void Initialize()
     {
@@ -33,6 +32,13 @@ public class GameGrid
                 cell.StateChanged += OnGridStateChanged;
             }
         }
+    }
+
+    public Cell GetRandomCell()
+    {
+        int x = Random.Range(0, _grid.GetLength(0));
+        int y = Random.Range(0, _grid.GetLength(1));
+        return _grid[x, y];
     }
 
     private void OnGridStateChanged(CellState cellState)

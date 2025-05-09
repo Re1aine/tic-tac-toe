@@ -31,4 +31,9 @@ public static class AssetProvider
         var prefab = Resources.Load<GameObject>(prefabName);
         return Object.Instantiate(prefab, position, Quaternion.identity);
     }
+    public static GameObject InstantiateGameObject(string prefabName)
+    { 
+        var prefab = Resources.Load<GameObject>(prefabName);
+        return Object.Instantiate(prefab);
+    }
 }

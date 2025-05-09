@@ -23,12 +23,8 @@ public class EndRoundHandler
     
     private void StartTimerToWin()
     {
-        Debug.Log("Timer to win");
-        if (_roundStateTracker.State != RoundState.InProgress && !_isActive)
-        {
-            Debug.Log("Timer to win staaaaart");
+        if (_roundStateTracker.State != RoundState.InProgress && !_isActive) 
             _coroutineRunner.StartCoroutine(CountTimerToWin(TimerToWin), CoroutineScopes.Gameplay);
-        }
     }
 
     private IEnumerator CountTimerToWin(float duration)

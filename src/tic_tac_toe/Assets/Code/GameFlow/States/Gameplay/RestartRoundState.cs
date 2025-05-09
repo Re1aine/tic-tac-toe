@@ -7,17 +7,30 @@ public class RestartRoundState : IState
 {
     private readonly ICoroutineRunner _coroutineRunner;
     private readonly IObjectResolver _resolver;
+    private readonly IHUDProvider _hudProvider;
+    private readonly IProjectilesHolder _projectilesHolder;
+    private readonly IFiguresHolder _figuresHolder;
 
-    public RestartRoundState(ICoroutineRunner coroutineRunner, IObjectResolver resolver)
+    public RestartRoundState(ICoroutineRunner coroutineRunner,
+        IObjectResolver resolver,
+        IHUDProvider hudProvider,
+        IProjectilesHolder projectilesHolder,
+        IFiguresHolder figuresHolder)
     {
         _coroutineRunner = coroutineRunner;
         _resolver = resolver;
+        _hudProvider = hudProvider;
+        _projectilesHolder = projectilesHolder;
+        _figuresHolder = figuresHolder;
     }
 
     public void Enter()
     {
         var grid = _resolver.Resolve<GameGrid>();
+        //_hudProvider.GameplayUI.ResetTimer();
         _coroutineRunner.StartCoroutine(WaveClearAnimation(grid), CoroutineScopes.Gameplay);
+        _figuresHolder.DestroyAll();
+        _projectilesHolder.DestroyAll();
     }
 
     private IEnumerator WaveClearAnimation(GameGrid grid)
@@ -50,9 +63,12 @@ public class RestartRoundState : IState
             // Ждем перед следующим слоем
             yield return new WaitForSeconds(delayBetweenCells);
         }
+        
+        _hudProvider.GameplayUI.ResetTimer();
     }
     
     public void Exit()
     {
+        
     }
 }

@@ -17,10 +17,21 @@ public class GameplayScope : LifetimeScope
         builder.Register<GameplaySceneProvider>(Lifetime.Singleton).As<IGameplaySceneProvider>()
             .WithParameter(resolver => resolver.Resolve<GameField>());
         
+        builder.Register<UIFactory>(Lifetime.Singleton).As<IUIFactory>();
+        builder.Register<HUDProvider>(Lifetime.Singleton).As<IHUDProvider>();
+        
+        builder.Register<PauseService>(Lifetime.Singleton).As<IPauseService>();
         
         builder.Register<PooledProjectileFactory>(Lifetime.Singleton).As<IProjectileFactory>();
-        builder.Register<PooledFigureFactory>(Lifetime.Singleton).As<IFigureFactory>();
+        builder.Register<GameplayPooledFigureFactory>(Lifetime.Singleton).As<IFigureFactory>();
         
+        builder.Register<ProjectilesHolder>(Lifetime.Singleton).As<IProjectilesHolder>();
+        builder.Register<FiguresHolder>(Lifetime.Singleton).As<IFiguresHolder>();
+        
+        builder.Register<BombSpawner>(Lifetime.Singleton).As<IBombSpawner>();
+        builder.Register<SafeContainerSpawner>(Lifetime.Singleton).As<ISafeContainerSpawner>();
+
+
         builder.Register<GameGrid>(Lifetime.Singleton);
         builder.Register<RoundStateTracker>(Lifetime.Singleton);
         builder.Register<EndRoundHandler>(Lifetime.Singleton);

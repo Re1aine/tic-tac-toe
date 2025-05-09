@@ -3,7 +3,7 @@ using UnityEngine.Pool;
 using VContainer;
 using VContainer.Unity;
 
-public class PooledFigureFactory : IFigureFactory
+public abstract class PooledFigureFactory : IFigureFactory
 {
     private const string ParentName = "Figures";
     
@@ -15,8 +15,8 @@ public class PooledFigureFactory : IFigureFactory
     private Transform _figuresParent;
     
     private readonly float _lifeTimeFigure = 15f;
-    
-    public PooledFigureFactory(IObjectResolver resolver)
+
+    protected PooledFigureFactory(IObjectResolver resolver)
     {
         _resolver = resolver;
     }
@@ -28,7 +28,7 @@ public class PooledFigureFactory : IFigureFactory
         return figure;
     }
 
-    public Figure CreateFigure(Vector3 position, Quaternion rotation)
+    public virtual Figure CreateFigure(Vector3 position, Quaternion rotation)
     {
         var figure = _figuresPool.Get();
         figure.transform.position = position;
@@ -60,5 +60,4 @@ public interface IFigureFactory
 {
     Figure CreateFigure(Vector3 position, Quaternion rotation);
     void Initialize();
-
 }

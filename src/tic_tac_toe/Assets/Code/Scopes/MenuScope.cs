@@ -18,7 +18,7 @@ public class MenuScope : LifetimeScope
             .WithParameter("orbitCamera", _orbitCamera);
 
 
-        builder.Register<PooledFigureFactory>(Lifetime.Singleton).As<IFigureFactory>();
+        builder.Register<MenuPooledFigureFactory>(Lifetime.Singleton).As<IFigureFactory>();
         
         builder.Register<StateFactory>(Lifetime.Singleton);
         builder.Register<MenuStateMachine>(Lifetime.Singleton);

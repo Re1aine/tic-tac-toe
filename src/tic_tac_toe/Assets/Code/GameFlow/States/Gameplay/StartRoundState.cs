@@ -1,29 +1,24 @@
-using System.Collections;
-using UnityEngine;
 using VContainer;
 
 public class StartRoundState : IState
 {
     private readonly GameplayStateMachine _gameplayStateMachine;
     private readonly IGameFactory _gameFactory;
-    private readonly ICoroutineRunner _coroutineRunner;
     private readonly ICameraService _cameraService;
     private readonly IObjectResolver _objectResolver;
-    private readonly IGameplaySceneProvider _gameplaySceneProvider;
+    private readonly IUIFactory _uiFactory;
 
     public StartRoundState(GameplayStateMachine gameplayStateMachine,
         IGameFactory gameFactory,
-        ICoroutineRunner coroutineRunner,
         ICameraService cameraService,
         IObjectResolver objectResolver,
-        IGameplaySceneProvider gameplaySceneProvider)
+        IUIFactory uiFactory)
     {
         _gameplayStateMachine = gameplayStateMachine;
         _gameFactory = gameFactory;
-        _coroutineRunner = coroutineRunner;
         _cameraService = cameraService;
         _objectResolver = objectResolver;
-        _gameplaySceneProvider = gameplaySceneProvider;
+        _uiFactory = uiFactory;
     }
 
     public void Enter()
@@ -31,6 +26,7 @@ public class StartRoundState : IState
         _cameraService.Activate();
         _gameFactory.CreatePlayer();
         _gameFactory.CreateGrid();
+        _uiFactory.CreateHud();
         
         _objectResolver.Resolve<RoundStateTracker>(); 
         _objectResolver.Resolve<EndRoundHandler>();   

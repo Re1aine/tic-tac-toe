@@ -1,23 +1,21 @@
-using UnityEngine;
 
 public class EndRoundState : IStateWithArg<RoundState>
 {
-    private readonly GameplayStateMachine _gameStateMachine;
-    private readonly ICoroutineRunner _coroutineRunner;
+    private readonly IUIFactory _uiFactory;
 
-    public EndRoundState(GameplayStateMachine gameStateMachine, ICoroutineRunner coroutineRunner)
+    private ResultWindow _resultWindow;
+    public EndRoundState(IUIFactory uiFactory)
     {
-        _gameStateMachine = gameStateMachine;
-        _coroutineRunner = coroutineRunner;
+        _uiFactory = uiFactory;
     }
 
     public void Enter(RoundState result)
     {
-        _gameStateMachine.Enter<LoadSceneState, GameScenes>(GameScenes.Menu);
+        _resultWindow = _uiFactory.CreateResultWindow();
     }
 
     public void Exit()
     {
-        Debug.Log("END ROUND STATE");
+        _resultWindow.Destroy();
     }
 }

@@ -2,35 +2,46 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class GameFactory : IGameFactory
+public  class GameFactory : IGameFactory
 {
     private readonly IObjectResolver _objectResolver;
 
-    public GameFactory(IObjectResolver objectResolver) =>
+    protected GameFactory(IObjectResolver objectResolver)
+    {
         _objectResolver = objectResolver;
+    }
 
     public GameGrid CreateGrid()
     {
         var grid = _objectResolver.Resolve<GameGrid>();
         grid.Initialize();
-    
         return grid;
     }
+
+  
     
-    public Figure CreateFigure(FigureType type, Vector3 position, Quaternion rotation) =>
-        AssetProvider.InstantiateAt<Figure>(type.ToString(), position, rotation);
-    
+    public Figure CreateFigure(FigureType type, Vector3 position, Quaternion rotation)
+    {
+        return AssetProvider.InstantiateAt<Figure>(type.ToString(), position, rotation);
+    }
+
+    public Bomb CreateBomb(Vector3 position, Quaternion rotation)
+    {
+        var prefab = Resources.Load<Bomb>("Bomb");
+        return _objectResolver.Instantiate(prefab, position, rotation);
+    }
+
     public Player CreatePlayer()
     {
         var prefab = Resources.Load<Player>("Player");
         return _objectResolver.Instantiate(prefab);
     }
 
-    public Bomb CreateBomb(Vector3 position, Quaternion rotation) => 
-        AssetProvider.InstantiateAt<Bomb>("Bomb", position, rotation);
-
-    public GameObject CreateSafeContainer(Vector3 position) => 
-        AssetProvider.InstantiateGameObjectAt("SafeContainer", position);
+    public SafeContainer CreateSafeContainer(Vector3 position)
+    {
+        var prefab = Resources.Load<SafeContainer>("SafeContainer");
+        return _objectResolver.Instantiate(prefab, position, Quaternion.identity);
+    }
 }
 
 public interface IGameFactory
@@ -39,6 +50,6 @@ public interface IGameFactory
     Player CreatePlayer();
     GameGrid CreateGrid();
     Bomb CreateBomb(Vector3 position, Quaternion rotation);
-    GameObject CreateSafeContainer(Vector3 position);
+    SafeContainer CreateSafeContainer(Vector3 position);
 }
 

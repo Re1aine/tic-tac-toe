@@ -22,7 +22,7 @@ public class RoundStateHandler
 
     public void PauseRound()
     {
-        _gameStateMachine.Enter<MenuRoundState>();
+        _gameStateMachine.Enter<PauseRoundState>();
     }
 
     private void EndRound(RoundState result)

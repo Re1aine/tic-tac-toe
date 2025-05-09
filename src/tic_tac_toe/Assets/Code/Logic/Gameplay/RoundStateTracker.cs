@@ -13,7 +13,6 @@ public class RoundStateTracker : IDisposable
         _gameGrid = gameGrid;
 
         _gameGrid.GridStateChanged += SetRoundState;
-        Debug.Log("THIS IS THE ROUNDSTATE TRACKER");
     }
     
     private void SetRoundState()

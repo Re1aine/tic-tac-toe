@@ -4,16 +4,14 @@ using VContainer;
 public class Player : MonoBehaviour
 {
     private Camera _camera;
-    private IGameFactory _gameFactory;
     private IGameplaySceneProvider _sceneProvider;
     private IFigureFactory _figureFactory;
-
+    
     private void Awake() => _camera = Camera.main;
 
     [Inject]
-    private void Construct(IGameFactory gameFactory, IGameplaySceneProvider sceneProvider, IFigureFactory figureFactory)
+    private void Construct(IGameplaySceneProvider sceneProvider, IFigureFactory figureFactory)
     {
-        _gameFactory = gameFactory;
         _sceneProvider = sceneProvider;
         _figureFactory = figureFactory;
     }
