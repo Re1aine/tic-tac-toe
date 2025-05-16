@@ -4,6 +4,7 @@ using UnityEngine;
 public class Figure : MonoBehaviour, IRaycastable, IPausable
 {
     public event Action Destroyed;
+    public event Action Disabled;
     
     [field: SerializeField] public FigureType FigureType { get; private set; }
     [field: SerializeField] public FigureModificator FigureModificator { get; set; } = FigureModificator.None;
@@ -23,7 +24,9 @@ public class Figure : MonoBehaviour, IRaycastable, IPausable
         _rigidbody.isKinematic = true;
         _rigidbody.isKinematic = false;
     }
-    
+
+    private void OnDisable() => Disabled?.Invoke();
+
     private void Update()
     {
         if(_isPaused) return;

@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using VContainer;
 
 public class SafeContainer : MonoBehaviour, IPausable, IRaycastable
 {
+    public event Action<SafeContainer> Destroyed;
+    
     private IPauseService _pauseService;
     
     private bool _isPaused;
@@ -31,8 +34,13 @@ public class SafeContainer : MonoBehaviour, IPausable, IRaycastable
             figure.FigureModificator = FigureModificator.None;
         }
     }
-    
-    public IEnumerator MoveTo(Vector3 from, Vector3 to, float speed)
+
+    public Coroutine StartMoveTo(Vector3 from, Vector3 to, float speed)
+    {
+        return StartCoroutine(MoveTo(from, to, speed));
+    }
+
+    private IEnumerator MoveTo(Vector3 from, Vector3 to, float speed)
     {
         float journeyLength = Vector3.Distance(from, to);
         float elapsedTime = 0f;
@@ -56,11 +64,11 @@ public class SafeContainer : MonoBehaviour, IPausable, IRaycastable
     public void Pause() => _isPaused = true;
 
     public void UnPause() => _isPaused = false;
-
-    private void OnDestroy() => _pauseService.Remove(this);
-
+    
     public void Destroy()
     {
-        
+        Destroyed?.Invoke(this);
+        _pauseService.Remove(this);
+        Destroy(gameObject);
     }
 }

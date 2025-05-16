@@ -7,25 +7,21 @@ public class Timer : MonoBehaviour, IPausable
     private const string DefaultValue = "00:00";
 
     [SerializeField] private TextMeshProUGUI _timerText;
-    [SerializeField] private Color _normalColor = Color.white;
-    [SerializeField] private Color _warningColor = Color.yellow;
-    [SerializeField] private Color _dangerColor = Color.red;
-    [SerializeField] private float _warningThreshold;
-    [SerializeField] private float _dangerThreshold;
-    [SerializeField] private float _roundDuration;
     
     private GameplayStateMachine _gameplayStateMachine;
+    private IStaticDataService _staticDataService;
     private IPauseService _pauseService;
-    
+
     private float _currentTime;
     private bool _isPaused;
     private bool _timerEnded;
 
     [Inject]
-    public void Construct(GameplayStateMachine gameplayStateMachine, IPauseService pauseService)
+    public void Construct(GameplayStateMachine gameplayStateMachine, IPauseService pauseService, IStaticDataService staticDataService)
     {
         _gameplayStateMachine = gameplayStateMachine;
         _pauseService = pauseService;
+        _staticDataService = staticDataService;
     }
     
     private void Start()
@@ -50,7 +46,7 @@ public class Timer : MonoBehaviour, IPausable
     private void EndTimer()
     {
         _timerText.text = DefaultValue;
-        _timerText.color = _dangerColor;
+        _timerText.color = _staticDataService.TimerStaticData.DangerColor;
         _timerEnded = true;
         OnTimerEnd();
     }
@@ -58,7 +54,7 @@ public class Timer : MonoBehaviour, IPausable
     public void ResetTimer()
     {
         _timerEnded = false;
-        _currentTime = _roundDuration;
+        _currentTime = _staticDataService.TimerStaticData.RoundDuration;
         UpdateTimerDisplay();
     }
 
@@ -68,12 +64,12 @@ public class Timer : MonoBehaviour, IPausable
         int seconds = Mathf.FloorToInt(_currentTime % 60f);
         _timerText.text = $"{minutes:00}:{seconds:00}";
 
-        if (_currentTime <= _dangerThreshold)
-            _timerText.color = _dangerColor;
-        else if (_currentTime <= _warningThreshold)
-            _timerText.color = _warningColor;
+        if (_currentTime <= _staticDataService.TimerStaticData.DangerThreshold)
+            _timerText.color = _staticDataService.TimerStaticData.DangerColor;
+        else if (_currentTime <= _staticDataService.TimerStaticData.WarningThreshold)
+            _timerText.color = _staticDataService.TimerStaticData.WarningColor;
         else
-            _timerText.color = _normalColor;
+            _timerText.color = _staticDataService.TimerStaticData.NormalColor;
     }
 
     private void OnTimerEnd() => _gameplayStateMachine.Enter<EndRoundState, RoundState>(RoundState.CircleWin);

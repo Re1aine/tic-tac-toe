@@ -3,22 +3,19 @@ using VContainer;
 public class StartRoundState : IState
 {
     private readonly GameplayStateMachine _gameplayStateMachine;
-    private readonly IGameFactory _gameFactory;
+    private readonly IGameplayFactory _gameFactory;
     private readonly ICameraService _cameraService;
     private readonly IObjectResolver _objectResolver;
-    private readonly IUIFactory _uiFactory;
 
     public StartRoundState(GameplayStateMachine gameplayStateMachine,
-        IGameFactory gameFactory,
+        IGameplayFactory gameFactory,
         ICameraService cameraService,
-        IObjectResolver objectResolver,
-        IUIFactory uiFactory)
+        IObjectResolver objectResolver)
     {
         _gameplayStateMachine = gameplayStateMachine;
         _gameFactory = gameFactory;
         _cameraService = cameraService;
         _objectResolver = objectResolver;
-        _uiFactory = uiFactory;
     }
 
     public void Enter()
@@ -26,7 +23,6 @@ public class StartRoundState : IState
         _cameraService.Activate();
         _gameFactory.CreatePlayer();
         _gameFactory.CreateGrid();
-        _uiFactory.CreateHud();
         
         _objectResolver.Resolve<RoundStateTracker>(); 
         _objectResolver.Resolve<EndRoundHandler>();   

@@ -4,14 +4,16 @@ using UnityEngine;
 public class BombSpawner : IBombSpawner
 {
     private readonly ICoroutineRunner _coroutineRunner;
-    private readonly IGameFactory _gameFactory;
+    private readonly IGameplayFactory _gameFactory;
     private readonly IGameplaySceneProvider _gameplaySceneProvider;
     private readonly IPauseService _pauseService;
 
     private Coroutine _coroutine;
     
+    private readonly int _bombCount = 1;
+    
     public BombSpawner(ICoroutineRunner coroutineRunner,
-        IGameFactory gameFactory,
+        IGameplayFactory gameFactory,
         IGameplaySceneProvider gameplaySceneProvider,
         IPauseService pauseService)
     {
@@ -33,7 +35,7 @@ public class BombSpawner : IBombSpawner
         {
             yield return new WaitForSecondsUnpaused(_pauseService, 3f);
             
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < _bombCount; i++)
             {
                 _gameFactory.CreateBomb(
                     RandomHelper.GetRandomPositionInCollider(_gameplaySceneProvider.GameField.SpawnZone),
@@ -48,4 +50,4 @@ public interface IBombSpawner
 {
     void Enable();
     void Disable();
-} 
+}

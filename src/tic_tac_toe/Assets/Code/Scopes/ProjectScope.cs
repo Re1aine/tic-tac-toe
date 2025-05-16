@@ -8,6 +8,7 @@ public class ProjectScope : LifetimeScope
         builder.RegisterComponentInHierarchy<CoroutineRunner>().As<ICoroutineRunner>();
         //builder.RegisterComponentInHierarchy<LoadScreen>().As<ILoadScreen>();
         builder.Register<SceneLoader>(Lifetime.Singleton).As<ISceneLoader>();
+        builder.Register<StaticDataService>(Lifetime.Singleton).As<IStaticDataService>();
         builder.Register<StateFactory>(Lifetime.Singleton);
         builder.Register<GameStateMachine>(Lifetime.Singleton);
         

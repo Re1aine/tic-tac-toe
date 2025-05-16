@@ -12,7 +12,6 @@ public class MenuInitializeState : IState
     public void Enter()
     {
         _figureFactory.Initialize();
-        
         _menuStateMachine.Enter<MenuState>();
     }
 

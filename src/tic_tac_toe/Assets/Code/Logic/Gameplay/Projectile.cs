@@ -4,14 +4,20 @@ using UnityEngine;
 public class Projectile : MonoBehaviour, IRaycastable, IPausable
 {
     public event Action Destroyed;
-
+    
     private Rigidbody _rigidbody;
+    private Material _material;
+
+    private Vector3 _velocity;
     private float _lifetime;
     private bool _isPaused;
-    
-    private Vector3 _velocity;
-    
-    private void Awake() => _rigidbody = GetComponent<Rigidbody>();
+
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+        _material = GetComponent<MeshRenderer>().sharedMaterial;
+    }
 
     private void Update()
     {
@@ -31,20 +37,20 @@ public class Projectile : MonoBehaviour, IRaycastable, IPausable
         _rigidbody.isKinematic = false;
     }
 
+    public void SetColor(Color color) => _material.color = color;
+
     public void Launch(Vector3 direction, float force) => 
         _rigidbody.AddForce(direction * force, ForceMode.Impulse);
 
     public void Pause()
     {
         _isPaused = true;
-        
         _rigidbody.isKinematic = true;
     }
 
     public void UnPause()
     {
         _isPaused = false;
-        
         _rigidbody.isKinematic = false;
     }
 

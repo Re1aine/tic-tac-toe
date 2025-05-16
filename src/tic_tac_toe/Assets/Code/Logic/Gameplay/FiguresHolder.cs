@@ -9,8 +9,11 @@ public class FiguresHolder : IFiguresHolder
     public void Add(Figure figure) => _figures.Add(figure);
     public void Remove(Figure figure) => _figures.Remove(figure);
 
-    public void DestroyAll() => 
+    public void DestroyAll()
+    {
         _figures.ToList().ForEach(x => x.Destroy());
+        _figures.Clear();
+    }
 }
 
 public interface IFiguresHolder

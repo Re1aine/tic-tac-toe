@@ -5,14 +5,14 @@ using VContainer;
 public class SafeContainerSpawner : ISafeContainerSpawner
 {
     private readonly ICoroutineRunner _coroutineRunner;
-    private readonly IGameFactory _gameFactory;
+    private readonly IGameplayFactory _gameFactory;
     private readonly IObjectResolver _objectResolver;
     private readonly IPauseService _pauseService;
 
     private Coroutine _coroutine;
     
     public SafeContainerSpawner(ICoroutineRunner coroutineRunner,
-        IGameFactory gameFactory,
+        IGameplayFactory gameFactory,
         IObjectResolver objectResolver,
         IPauseService pauseService)
     {
@@ -44,15 +44,11 @@ public class SafeContainerSpawner : ISafeContainerSpawner
             
             Vector3 targetPosition = targetCell.transform.position + Vector3.up * 2;
             
-            yield return _coroutineRunner.StartCoroutine(safeContainer.MoveTo(spawnPosition, targetPosition, 5),
-                CoroutineScopes.Gameplay);
-            
+            yield return safeContainer.StartMoveTo(spawnPosition, targetPosition, 5);
             yield return new WaitForSecondsUnpaused(_pauseService, 5);
+            yield return safeContainer.StartMoveTo(targetPosition, spawnPosition, 5);
             
-            yield return _coroutineRunner.StartCoroutine(safeContainer.MoveTo(targetPosition, spawnPosition, 5),
-                CoroutineScopes.Gameplay);
-            
-            Object.Destroy(safeContainer);
+            safeContainer.Destroy();
         }
     }
 }

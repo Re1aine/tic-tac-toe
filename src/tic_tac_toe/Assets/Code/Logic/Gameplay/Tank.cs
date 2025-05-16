@@ -5,22 +5,21 @@ using VContainer;
 public class Tank : MonoBehaviour, IPausable
 {
     [SerializeField] private Transform _shootPoint;
-    [SerializeField] private GameObject _bullet;
-    [SerializeField] private float _shootForce;
-    [SerializeField] private int _coolDown = 3;
     
-    private IProjectileFactory _projectileFactory;
+    private IGameplayFactory _gameplayFactory;
     private IPauseService _pauseService;
+    private IStaticDataService _staticDataService;
 
     private bool _isPaused;
     
     [Inject]
-    public void Construct(IProjectileFactory projectileFactory, IPauseService pauseService)
+    public void Construct(IGameplayFactory gameplayFactory, IPauseService pauseService, IStaticDataService staticDataService)
     {
-        _projectileFactory = projectileFactory;
+        _gameplayFactory = gameplayFactory;
         _pauseService = pauseService;
+        _staticDataService = staticDataService;
     }
-    
+
     public void Start()
     {
         _pauseService.Add(this);
@@ -38,17 +37,15 @@ public class Tank : MonoBehaviour, IPausable
     {
         while (true)
         {
-            yield return new WaitForSecondsUnpaused(_pauseService, _coolDown);
+            yield return new WaitForSecondsUnpaused(_pauseService, _staticDataService.TankStaticData.Cooldown);
             
             var randomRotation = RandomHelper.GetRandomRotation();
-            var projectile = _projectileFactory.CreateProjectile(_shootPoint.position, randomRotation);
-            projectile.Launch(_shootPoint.transform.forward, _shootForce);
+            var projectile = _gameplayFactory.CreateProjectile(_shootPoint.position, randomRotation);
+            projectile.Launch(_shootPoint.transform.forward, _staticDataService.TankStaticData.ShootForce);
         }
     }
 
     public void Pause() => _isPaused = true;
-
     public void UnPause() => _isPaused = false;
-
-    public void OnDestroy() => _pauseService.Remove(this);
+    public void Destroy() => _pauseService.Remove(this);
 }

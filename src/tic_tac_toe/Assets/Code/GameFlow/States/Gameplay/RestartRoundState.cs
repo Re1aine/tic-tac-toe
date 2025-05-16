@@ -5,32 +5,56 @@ using VContainer;
 
 public class RestartRoundState : IState
 {
+    private readonly GameplayStateMachine _gameplayStateMachine;
     private readonly ICoroutineRunner _coroutineRunner;
     private readonly IObjectResolver _resolver;
     private readonly IHUDProvider _hudProvider;
     private readonly IProjectilesHolder _projectilesHolder;
     private readonly IFiguresHolder _figuresHolder;
+    private readonly ISafeContainersHolder _safeContainersHolder;
+    private readonly IBombsHolder _bombHolder;
+    private readonly IPauseService _pauseService;
+    private readonly ISafeContainerSpawner _safeContainerSpawner;
+    private readonly IBombSpawner _bombSpawner;
 
-    public RestartRoundState(ICoroutineRunner coroutineRunner,
+    public RestartRoundState(GameplayStateMachine gameplayStateMachine,
+        ICoroutineRunner coroutineRunner,
         IObjectResolver resolver,
         IHUDProvider hudProvider,
         IProjectilesHolder projectilesHolder,
-        IFiguresHolder figuresHolder)
+        IFiguresHolder figuresHolder,
+        ISafeContainersHolder safeContainersHolder,
+        IBombsHolder bombHolder,
+        IPauseService pauseService,
+        ISafeContainerSpawner safeContainerSpawner,
+        IBombSpawner bombSpawner)
     {
+        _gameplayStateMachine = gameplayStateMachine;
         _coroutineRunner = coroutineRunner;
         _resolver = resolver;
         _hudProvider = hudProvider;
         _projectilesHolder = projectilesHolder;
         _figuresHolder = figuresHolder;
+        _safeContainersHolder = safeContainersHolder;
+        _bombHolder = bombHolder;
+        _pauseService = pauseService;
+        _safeContainerSpawner = safeContainerSpawner;
+        _bombSpawner = bombSpawner;
     }
 
     public void Enter()
     {
         var grid = _resolver.Resolve<GameGrid>();
-        //_hudProvider.GameplayUI.ResetTimer();
-        _coroutineRunner.StartCoroutine(WaveClearAnimation(grid), CoroutineScopes.Gameplay);
+        
         _figuresHolder.DestroyAll();
         _projectilesHolder.DestroyAll();
+        _safeContainersHolder.DestroyAll();
+        _bombHolder.DestroyAll();
+        
+        _safeContainerSpawner.Disable();
+        _bombSpawner.Disable();
+        
+        _coroutineRunner.StartCoroutine(WaveClearAnimation(grid), CoroutineScopes.Gameplay);
     }
 
     private IEnumerator WaveClearAnimation(GameGrid grid)
@@ -64,7 +88,15 @@ public class RestartRoundState : IState
             yield return new WaitForSeconds(delayBetweenCells);
         }
         
+        Completed();
+    }
+
+    private void Completed()
+    {
+        _pauseService.UnPause();
         _hudProvider.GameplayUI.ResetTimer();
+
+        _gameplayStateMachine.Enter<GameplayLoopState>();
     }
     
     public void Exit()

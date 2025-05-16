@@ -3,22 +3,28 @@ using UnityEngine.Pool;
 using VContainer;
 using VContainer.Unity;
 
-public abstract class PooledFigureFactory : IFigureFactory
+public class PooledFigureFactory : IFigureFactory
 {
     private const string ParentName = "Figures";
     
     private readonly IObjectResolver _resolver;
+    private readonly IFiguresHolder _figuresHolder;
+    private readonly IPauseService _pauseService;
+    private readonly IStaticDataService _staticDataService;
 
     private ObjectPool<Figure> _figuresPool;
 
     private Figure _figurePrefab;
     private Transform _figuresParent;
     
-    private readonly float _lifeTimeFigure = 15f;
-
-    protected PooledFigureFactory(IObjectResolver resolver)
+    protected PooledFigureFactory(IObjectResolver resolver, IFiguresHolder figuresHolder,
+        IPauseService pauseService,
+        IStaticDataService staticDataService)
     {
         _resolver = resolver;
+        _figuresHolder = figuresHolder;
+        _pauseService = pauseService;
+        _staticDataService = staticDataService;
     }
 
     private Figure CreateNewFigure()
@@ -33,7 +39,7 @@ public abstract class PooledFigureFactory : IFigureFactory
         var figure = _figuresPool.Get();
         figure.transform.position = position;
         figure.transform.rotation = rotation;
-        figure.SetLifeTime(_lifeTimeFigure);
+        figure.SetLifeTime(_staticDataService.FigureStaticData.Lifetime);
         figure.ResetRigidbody();
         return figure;
     }
@@ -49,11 +55,19 @@ public abstract class PooledFigureFactory : IFigureFactory
         for (int i = 0; i < 5; i++) _figuresPool.Release(CreateNewFigure());
     }
 
-    private void OnGetFigure(Figure figure) => 
+    private void OnGetFigure(Figure figure)
+    {
+        _figuresHolder.Add(figure);
+        _pauseService.Add(figure);
         figure.gameObject.SetActive(true);
+    }
 
-    private void OnReleaseFigure(Figure figure) => 
+    private void OnReleaseFigure(Figure figure)
+    {
+        _figuresHolder.Remove(figure);
+        _pauseService.Remove(figure);
         figure.gameObject.SetActive(false);
+    }
 }
 
 public interface IFigureFactory

@@ -5,15 +5,15 @@ public class Player : MonoBehaviour
 {
     private Camera _camera;
     private IGameplaySceneProvider _sceneProvider;
-    private IFigureFactory _figureFactory;
-    
+    private IGameFactory _gameFactory;
+
     private void Awake() => _camera = Camera.main;
 
     [Inject]
-    private void Construct(IGameplaySceneProvider sceneProvider, IFigureFactory figureFactory)
+    private void Construct(IGameplaySceneProvider sceneProvider, IGameFactory gameFactory)
     {
         _sceneProvider = sceneProvider;
-        _figureFactory = figureFactory;
+        _gameFactory = gameFactory;
     }
 
     private void Update()
@@ -30,5 +30,5 @@ public class Player : MonoBehaviour
     }
 
     private void ReleaseFigure(Vector3 position) => 
-        _figureFactory.CreateFigure(position, RandomHelper.GetRandomRotation());
+        _gameFactory.CreateFigure(FigureType.Cross, position, RandomHelper.GetRandomRotation());
 }

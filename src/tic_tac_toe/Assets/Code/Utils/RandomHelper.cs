@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public static class RandomHelper
@@ -40,4 +42,7 @@ public static class RandomHelper
         
         return new Quaternion(x, y, z, 0f);
     }
+
+    public static GameObject GetRandomGameObject(this List<GameObject> collection) => 
+        collection[Random.Range(0, collection.Count)];
 }

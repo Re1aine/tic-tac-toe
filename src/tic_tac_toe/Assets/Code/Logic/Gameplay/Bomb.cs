@@ -65,7 +65,7 @@ public class Bomb : MonoBehaviour, IRaycastable, IPausable
                 );
             }
         }
-        Destroy(gameObject);
+        Destroy();
     }
     
     private void OnDrawGizmos()
@@ -85,6 +85,11 @@ public class Bomb : MonoBehaviour, IRaycastable, IPausable
         _isPaused = false;
         _rigidbody.isKinematic = false;
     }
-
-    private void OnDestroy() => _pauseService.Remove(this);
+    
+    public void Destroy()
+    {
+        Destroyed?.Invoke(this);
+        _pauseService.Remove(this);
+        Destroy(gameObject);
+    }
 }

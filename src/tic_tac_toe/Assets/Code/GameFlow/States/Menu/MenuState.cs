@@ -7,18 +7,15 @@ public class MenuState : IState
     private readonly ICameraService _cameraService;
     private readonly IMenuSceneProvider _sceneProvider;
     private readonly IGameFactory _gameFactory;
-    private readonly IFigureFactory _figureFactory;
 
     public MenuState(ICoroutineRunner coroutineRunner,
         ICameraService cameraService,
         IMenuSceneProvider sceneProvider,
-        IGameFactory gameFactory,
-        IFigureFactory figureFactory)
+        IGameFactory gameFactory)
     {
         _coroutineRunner = coroutineRunner;
         _sceneProvider = sceneProvider;
         _gameFactory = gameFactory;
-        _figureFactory = figureFactory;
         _cameraService = cameraService;
     }
 
@@ -45,8 +42,7 @@ public class MenuState : IState
                 false, 
                 true, 
                 false);
-
-            _figureFactory.CreateFigure(randomPos, randomRotation);
+            _gameFactory.CreateFigure(FigureType.Cross, randomPos, randomRotation);
         }
     }
 }

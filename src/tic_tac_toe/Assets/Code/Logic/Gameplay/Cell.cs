@@ -15,9 +15,9 @@ public class Cell : MonoBehaviour, IRaycastable
     [SerializeField] private Material _cross;
     [SerializeField] private MeshRenderer _meshRenderer;
 
-    private Color _originMaterial;
     private readonly List<Figure> _figures = new();
-    private bool _isActive = false;
+    private Color _originMaterial;
+    private bool _isActive;
 
     private void Awake() => _originMaterial = _meshRenderer.material.color;
 
@@ -37,8 +37,10 @@ public class Cell : MonoBehaviour, IRaycastable
         {
             _meshRenderer.material.color = figure.FigureType == FigureType.Circle ? _circle.color : _cross.color;
             _figures.Add(figure);
+            figure.Disabled += OnFigureActiveDisabled;
 
             State = CellState.X;
+
             StateChanged?.Invoke(State);
         }
     }
@@ -50,6 +52,8 @@ public class Cell : MonoBehaviour, IRaycastable
         if (other.gameObject.TryGetComponent(out Figure figure))
         {
             _figures.Remove(figure);
+            figure.Disabled -= OnFigureActiveDisabled;
+
             
             if (IsEmpty())
             {
@@ -60,6 +64,12 @@ public class Cell : MonoBehaviour, IRaycastable
             }
         }
     }
+
+    private void OnFigureActiveDisabled()
+    {
+        _meshRenderer.material.color = _originMaterial;
+    }
+    
     private bool IsEmpty() => _figures.Count == 0;
 
     public void Clear()
@@ -96,7 +106,7 @@ public class Cell : MonoBehaviour, IRaycastable
             yield return null;
         }
     
-        transform.position = targetPosition; // Гарантируем точное попадание
+        transform.position = targetPosition;
     }
 
     private IEnumerator RotateAroundZ(float degrees, float duration)
@@ -112,7 +122,7 @@ public class Cell : MonoBehaviour, IRaycastable
             yield return null;
         }
     
-        transform.rotation = endRotation; // Точное завершение вращения
+        transform.rotation = endRotation;
     }
 }
 
