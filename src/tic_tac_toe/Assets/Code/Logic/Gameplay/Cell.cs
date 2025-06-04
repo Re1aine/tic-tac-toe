@@ -79,18 +79,14 @@ public class Cell : MonoBehaviour, IRaycastable
 
     private IEnumerator ClearAnimation()
     {
-        // Исходные позиции и параметры
         Vector3 startPosition = transform.position;
-        Vector3 loweredPosition = startPosition + Vector3.down * 5f; // Опускаем на 2 единицы
-        float duration = 0.5f; // Длительность каждой анимации
+        Vector3 loweredPosition = startPosition + Vector3.down * 5f;
+        float duration = 0.5f;
     
-        // 1. Опускаем вниз
         yield return MoveTo(loweredPosition, duration);
     
-        // 2. Вращаем на 360 градусов вокруг Z
         yield return RotateAroundZ(180, duration * 2);
     
-        // 3. Поднимаем обратно
         yield return MoveTo(startPosition, duration);
     }
 

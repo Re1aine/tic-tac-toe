@@ -20,8 +20,8 @@ public static class RandomHelper
         float z = Random.Range(collider.bounds.min.z, collider.bounds.max.z);
         
         return new Vector3(x, y, z);
-    }
-
+    } 
+    
     public static Vector3 GetRandomPositionInCollider(Collider collider, bool excludeX, bool excludeY, bool excludeZ)
     {
         Vector3 min = collider.bounds.min;

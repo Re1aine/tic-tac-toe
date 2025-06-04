@@ -33,6 +33,8 @@ public class GameplayScope : LifetimeScope
         builder.Register<BombSpawner>(Lifetime.Singleton).As<IBombSpawner>();
         builder.Register<SafeContainerSpawner>(Lifetime.Singleton).As<ISafeContainerSpawner>();
         
+        builder.Register<AbilityReleaseService>(Lifetime.Singleton).As<IAbilityReleaseService>();
+        
         builder.Register<GameGrid>(Lifetime.Singleton);
         builder.Register<RoundStateTracker>(Lifetime.Singleton);
         builder.Register<EndRoundHandler>(Lifetime.Singleton);

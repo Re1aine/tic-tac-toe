@@ -23,6 +23,7 @@ public class SafeContainer : MonoBehaviour, IPausable, IRaycastable
     {
         if (other.transform.TryGetComponent<Figure>(out var figure))
         {
+            figure.SetUnExplodable();
             figure.FigureModificator = FigureModificator.UnForcable;
         }
     }
@@ -31,6 +32,7 @@ public class SafeContainer : MonoBehaviour, IPausable, IRaycastable
     {
         if (other.transform.TryGetComponent<Figure>(out var figure))
         {
+            figure.SetExplodable();
             figure.FigureModificator = FigureModificator.None;
         }
     }

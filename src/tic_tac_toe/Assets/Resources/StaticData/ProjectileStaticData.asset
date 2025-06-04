@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: ccd1e07a78c64de4a9f56334243db624, type: 3}
   m_Name: ProjectileStaticData
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileStaticData
   prefabs:
   - {fileID: 8982688099037034252, guid: 35c966a47238b37e69739806d6330466, type: 3}
+  - {fileID: 6285467423370552618, guid: 0b36cc719af7a6e0b96f2c7ac49ff392, type: 3}
   - {fileID: 1771767342772547506, guid: cad5fc1add6e41a84a9765773ee30bb6, type: 3}
   - {fileID: 7746945715756677763, guid: 91b089f416ab912f88c872607fd827cd, type: 3}
-  - {fileID: 6285467423370552618, guid: 0b36cc719af7a6e0b96f2c7ac49ff392, type: 3}
   Lifetime: 3
-  Color: {r: 0.89718074, g: 0.9254902, b: 0.28235295, a: 0}
+  Color: {r: 0.95320857, g: 0.9716981, b: 0.38042897, a: 0}

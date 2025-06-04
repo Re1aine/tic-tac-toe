@@ -410,6 +410,7 @@ MonoBehaviour:
   Root: {fileID: 6159815500596194647}
   _pause: {fileID: 518848921539689694}
   _timer: {fileID: 2134423480844929629}
+  _bomb: {fileID: 3538372688311265597}
 --- !u!1 &3132565408161138299
 GameObject:
   m_ObjectHideFlags: 0

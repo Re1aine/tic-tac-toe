@@ -8,18 +8,23 @@ public class GameplayUI : MonoBehaviour
 
     [SerializeField] private Button _pause;
     [SerializeField] private Timer _timer;
+    [SerializeField] private Button _bomb;
     
     private GameplayStateMachine _gameplayStateMachine;
+    private IAbilityReleaseService _abilityReleaseService;
+
 
     [Inject]
-    public void Construct(GameplayStateMachine gameplayStateMachine)
+    public void Construct(GameplayStateMachine gameplayStateMachine, IAbilityReleaseService abilityReleaseService)
     {
         _gameplayStateMachine = gameplayStateMachine;
+        _abilityReleaseService = abilityReleaseService;
     }
     
     private void Start()
     {
         _pause.onClick.AddListener(() => _gameplayStateMachine.Enter<PauseRoundState>());
+        _bomb.onClick.AddListener(() => _abilityReleaseService.ReleaseAbility(AbilityId.Bomb));
         _timer.ResetTimer();
     }
 
