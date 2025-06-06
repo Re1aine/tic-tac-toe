@@ -42,13 +42,14 @@ public class Bomb : MonoBehaviour, IRaycastable, IPausable
         if (_timeToExplode <= 0)
             Explode();
     }
-
+    
     private void Explode()
     {
         if (_isExploded) return;
         _isExploded = true;
         
         _explosionHits = new Collider[BufferSize];
+        
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _radiusExplode, _explosionHits, _affectedLayers);
         
         for (int i = 0; i < hitCount; i++)

@@ -15,6 +15,6 @@ MonoBehaviour:
   NormalColor: {r: 1, g: 1, b: 1, a: 1}
   WarningColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   DangerColor: {r: 1, g: 0, b: 0, a: 1}
-  RoundDuration: 15
+  RoundDuration: 30
   DangerThreshold: 5
   WarningThreshold: 10

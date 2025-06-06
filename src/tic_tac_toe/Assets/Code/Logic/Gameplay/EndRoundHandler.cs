@@ -41,7 +41,6 @@ public class EndRoundHandler
             }
             
             duration -= Time.deltaTime;
-            Debug.Log($"Remain time to win - {duration}");
             yield return null;
         }
 
