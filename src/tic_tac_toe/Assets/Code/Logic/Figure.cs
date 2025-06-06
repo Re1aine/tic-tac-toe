@@ -49,16 +49,6 @@ public class Figure : MonoBehaviour, IRaycastable, IPausable
         _isPaused = false;
         _rigidbody.isKinematic = false;
     }
-
-    public void SetUnExplodable()
-    {
-        gameObject.layer = LayerMask.NameToLayer("Default");
-    }
-
-    public void SetExplodable()
-    {
-        gameObject.layer = LayerMask.NameToLayer("Explodable");
-    }
 }
 
 public enum FigureType

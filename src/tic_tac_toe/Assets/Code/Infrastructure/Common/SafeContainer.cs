@@ -21,20 +21,14 @@ public class SafeContainer : MonoBehaviour, IPausable, IRaycastable
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.TryGetComponent<Figure>(out var figure))
-        {
-            figure.SetUnExplodable();
-            //figure.FigureModificator = FigureModificator.UnForcable;
-        }
+        if (other.transform.TryGetComponent<Figure>(out var figure)) 
+            figure.FigureModificator = FigureModificator.UnForcable;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.TryGetComponent<Figure>(out var figure))
-        {
-            figure.SetExplodable();
-            //figure.FigureModificator = FigureModificator.None;
-        }
+        if (other.transform.TryGetComponent<Figure>(out var figure)) 
+            figure.FigureModificator = FigureModificator.None;
     }
 
     public Coroutine StartMoveTo(Vector3 from, Vector3 to, float speed)
