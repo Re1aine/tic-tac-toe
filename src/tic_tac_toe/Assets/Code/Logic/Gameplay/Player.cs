@@ -32,3 +32,6 @@ public class Player : MonoBehaviour
     private void ReleaseFigure(Vector3 position) => 
         _gameFactory.CreateFigure(FigureType.Cross, position, RandomHelper.GetRandomRotation());
 }
+
+
+

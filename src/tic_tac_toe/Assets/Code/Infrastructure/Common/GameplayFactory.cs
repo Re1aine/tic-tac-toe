@@ -57,6 +57,12 @@ public class GameplayFactory : GameFactory, IGameplayFactory
 
     public Projectile CreateProjectile(Vector3 position, Quaternion rotation) => 
         _projectileFactory.CreateProjectile(position, rotation);
+
+    public SimpleBot CreateSimpleBot()
+    {
+        var prefab =  Resources.Load<SimpleBot>("SimpleBot");
+        return _objectResolver.Instantiate(prefab);
+    }
 }
 
 public interface IGameplayFactory : IGameFactory
@@ -66,4 +72,5 @@ public interface IGameplayFactory : IGameFactory
     Bomb CreateBomb(Vector3 position, Quaternion rotation);
     SafeContainer CreateSafeContainer(Vector3 position);
     Projectile CreateProjectile(Vector3 position, Quaternion rotation);
+    SimpleBot CreateSimpleBot();
 }

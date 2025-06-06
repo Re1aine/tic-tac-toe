@@ -65,11 +65,9 @@ public class Cell : MonoBehaviour, IRaycastable
         }
     }
 
-    private void OnFigureActiveDisabled()
-    {
+    private void OnFigureActiveDisabled() => 
         _meshRenderer.material.color = _originMaterial;
-    }
-    
+
     private bool IsEmpty() => _figures.Count == 0;
 
     public void Clear()

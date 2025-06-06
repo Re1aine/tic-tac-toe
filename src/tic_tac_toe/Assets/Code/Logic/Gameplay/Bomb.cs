@@ -7,27 +7,31 @@ public class Bomb : MonoBehaviour, IRaycastable, IPausable
     public event Action<Bomb> Destroyed;
     
     private const int BufferSize = 32;
-    
+
     [SerializeField] private LayerMask _affectedLayers;
     [SerializeField] private float _timeToExplode;
     [SerializeField] private float _radiusExplode;
     [SerializeField] private int _forceExplode;
     [SerializeField] private int _upWardsForce;
 
+    [SerializeField] private GameObject explodeEffect;
+
     private IPauseService _pauseService;
-    
+    private IGameplaySceneProvider _gameplaySceneProvider;
+
     private Rigidbody _rigidbody;
     private Collider[] _explosionHits;
-    
+
     private bool _isExploded;
     private bool _isPaused;
 
     private void Awake() => _rigidbody = GetComponent<Rigidbody>();
 
     [Inject]
-    public void Construct(IPauseService pauseService)
+    public void Construct(IPauseService pauseService, IGameplaySceneProvider gameplaySceneProvider)
     {
         _pauseService = pauseService;
+        _gameplaySceneProvider = gameplaySceneProvider;
     }
 
     private void Start() => _pauseService.Add(this);
@@ -66,15 +70,10 @@ public class Bomb : MonoBehaviour, IRaycastable, IPausable
                 );
             }
         }
-        Destroy();
+
+        DestroyBomb(_gameplaySceneProvider.GameField.ExplodeZone.bounds.Contains(transform.position));
     }
     
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _radiusExplode);
-    }
-
     public void Pause()
     {
         _isPaused = true;
@@ -87,10 +86,14 @@ public class Bomb : MonoBehaviour, IRaycastable, IPausable
         _rigidbody.isKinematic = false;
     }
     
-    public void Destroy()
+    public void DestroyBomb(bool withEffect = true)
     {
         Destroyed?.Invoke(this);
         _pauseService.Remove(this);
+
+        if(withEffect)
+            Instantiate(explodeEffect, transform.position, Quaternion.identity);
+        
         Destroy(gameObject);
     }
 }

@@ -23,6 +23,7 @@ public class StartRoundState : IState
         _cameraService.Activate();
         _gameFactory.CreatePlayer();
         _gameFactory.CreateGrid();
+        _gameFactory.CreateSimpleBot();
         
         _objectResolver.Resolve<RoundStateTracker>(); 
         _objectResolver.Resolve<EndRoundHandler>();   

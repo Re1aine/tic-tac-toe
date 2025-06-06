@@ -4,4 +4,5 @@ public class GameField : MonoBehaviour
 {
     [field: SerializeField] public Collider SpawnZone;
     [field: SerializeField] public Transform GameQuads;
+    [field: SerializeField] public Collider ExplodeZone;
 }

@@ -59,6 +59,7 @@ MonoBehaviour:
   _radiusExplode: 5
   _forceExplode: 30
   _upWardsForce: 5
+  explodeEffect: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
 --- !u!54 &446802848744954193
 Rigidbody:
   m_ObjectHideFlags: 0

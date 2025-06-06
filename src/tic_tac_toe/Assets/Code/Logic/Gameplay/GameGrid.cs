@@ -45,4 +45,39 @@ public class GameGrid
     {
         GridStateChanged?.Invoke();
     }
+    
+    public Cell[] GetRandomLine()
+    {
+        int lineType = Random.Range(0, 3);
+        int index = Random.Range(0, 3);
+        Cell[] result = new Cell[3];
+
+        switch (lineType)
+        {
+            case 0:
+                for (int col = 0; col < 3; col++)
+                    result[col] = _grid[index, col];
+                break;
+            
+            case 1:
+                for (int row = 0; row < 3; row++)
+                    result[row] = _grid[row, index];
+                break;
+            
+            case 2:
+                if (index == 0)
+                {
+                    for (int i = 0; i < 3; i++)
+                        result[i] = _grid[i, i];
+                }
+                else
+                {
+                    for (int i = 0; i < 3; i++)
+                        result[i] = _grid[i, 2 - i];
+                }
+                break;
+        }
+
+        return result;
+    }
 }

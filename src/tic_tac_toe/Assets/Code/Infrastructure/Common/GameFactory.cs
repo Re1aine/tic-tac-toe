@@ -13,7 +13,7 @@ public abstract class GameFactory : IGameFactory
     }
     
     public Figure CreateFigure(FigureType type, Vector3 position, Quaternion rotation) => 
-        _figureFactory.CreateFigure(position, rotation);
+        _figureFactory.CreateFigure(type, position, rotation);
 }
 
 public interface IGameFactory
